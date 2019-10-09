@@ -1,0 +1,6 @@
+name: Regeneration
+version: ${project.version}
+main: com.mc_atlas.regeneration.Regeneration
+api-version: 1.13
+depend: [Machinations]
+authors: [Macus17, Tyrriel]
