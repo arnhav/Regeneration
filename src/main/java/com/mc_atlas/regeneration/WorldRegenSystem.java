@@ -11,7 +11,7 @@ public class WorldRegenSystem {
 	private World target;
 	private World template;
 	private int maxX, maxZ, minX, minZ;
-	private Connection conn ;
+	private Connection conn;
 	
 	public WorldRegenSystem(Connection conn, World target, World template, int maxX, int maxZ, int minX, int minZ)
 	{

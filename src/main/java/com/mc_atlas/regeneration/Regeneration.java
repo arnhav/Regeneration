@@ -54,7 +54,7 @@ public class Regeneration extends JavaPlugin implements Listener
 	
 	private void doUpdate(String sql) throws SQLException
 	{
-		try(PreparedStatement stm = conn.prepareStatement(sql ))
+		try(PreparedStatement stm = conn.prepareStatement(sql))
 		{
 			stm.executeUpdate();
 		}
@@ -93,6 +93,11 @@ public class Regeneration extends JavaPlugin implements Listener
 
 	public MachinationsService nationsAPI;
 
+	/**
+	 *
+	 * OnEnable
+	 *
+	 */
 	@Override
 	public void onEnable()
 	{
@@ -197,7 +202,6 @@ public class Regeneration extends JavaPlugin implements Listener
 	
 	private boolean isTownHere(ChunkTask obk)
 	{
-		// TODO return true if there is a town here using MachinationsAPI
 		IPlot plot = IPlot.fromChunkCoordinates(obk.x, obk.z, obk.worldName);
 		return nationsAPI.getTownByPlot(plot) != null;
 	}
