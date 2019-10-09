@@ -14,12 +14,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import co.bronet.machinations.api.IPlot;
 import co.bronet.machinations.api.MachinationsService;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -40,17 +39,22 @@ public class Regeneration extends JavaPlugin implements Listener
 	private LinkedBlockingQueue<ChunkTask> doneList = new LinkedBlockingQueue<ChunkTask>();
 	
 	private Connection conn;
+
+	private MachinationsService nationsAPI;
+
+	private FileConfiguration config;
 	
 	// A chunk will not be reconsidered until after this amount of time has passed.
 	// set this to a few hours
-	public final int minSecondsBetweenChunkConsideration = 3 * (60*60);
+	public int minSecondsBetweenChunkConsideration;
 	
 	// The amount of time after a player has placed or broken blocks before the regen system will consider it for regen.
 	// This should be a few days or so.
-	public final int minPlayerBuildSeconds = 3 * (60*60*24);
+	public int minPlayerBuildSeconds;
 	
 	// Once a chunk has had regen passed over it, wait at least this many seconds before doing another pass.
-	public final int minSecondsBetweenChunkRegenPass = 10 * 60;
+	// Set this to a few minutes
+	public int minSecondsBetweenChunkRegenPass;
 	
 	private void doUpdate(String sql) throws SQLException
 	{
@@ -91,7 +95,31 @@ public class Regeneration extends JavaPlugin implements Listener
 
 	}
 
-	public MachinationsService nationsAPI;
+	public void createConfig() {
+		try {
+			if (!getDataFolder().exists()) {
+				getDataFolder().mkdirs();
+			}
+			File file = new File(getDataFolder(), "config.yml");
+			config = new YamlConfiguration();
+			if (!file.exists()) {
+				this.getLogger().info("config.yml not found, creating...");
+				saveDefaultConfig();
+			} else {
+				this.getLogger().info("config.yml found, loading...");
+				loadConfig();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void loadConfig(){
+		config = this.getConfig();
+		minSecondsBetweenChunkConsideration = config.getInt("minSecondsBetweenChunkConsideration");
+		minPlayerBuildSeconds = config.getInt("minPlayerBuildSeconds");
+		minSecondsBetweenChunkRegenPass = config.getInt("minSecondsBetweenChunkRegenPass");
+	}
 
 	/**
 	 *
@@ -111,6 +139,8 @@ public class Regeneration extends JavaPlugin implements Listener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		createConfig();
 		
 		realToTemplate.put(Bukkit.getWorld("Athera"), Bukkit.getWorld("AtheraCopy"));
 		

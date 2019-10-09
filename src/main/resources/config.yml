@@ -1,0 +1,15 @@
+#
+# Regeneration Settings:
+#
+# minSecondsBetweenChunkConsideration - A chunk will not be reconsidered until after this amount of time has passed.
+#                                       Set this to a few hours
+#
+# minPlayerBuildSeconds - The amount of time after a player has placed or broken blocks before the regen system will consider it for regen.
+#                         Set this to a few days or so.
+#
+# minSecondsBetweenChunkRegenPass - Once a chunk has had regen passed over it, wait at least this many seconds before doing another pass.
+#                                   Set this to a few minutes
+#
+minSecondsBetweenChunkConsideration: 60
+minPlayerBuildSeconds: 3600
+minSecondsBetweenChunkRegenPass: 10
