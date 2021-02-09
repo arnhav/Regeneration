@@ -1,2 +1,2 @@
 # Regeneration
-A World Regeneration system for Atlas/Shiraxia.
+A World Regeneration system for Minecraft servers
